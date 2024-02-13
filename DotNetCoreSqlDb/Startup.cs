@@ -29,7 +29,13 @@ namespace DotNetCoreSqlDb
         {
             services.AddControllersWithViews();
             services.AddDbContext<MyDatabaseContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+                    options.UseSqlServer(Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")));
+
+            builder.Services.AddStackExchangeRedisCache(options =>
+                {
+                    options.Configuration = builder.Configuration["AZURE_REDIS_CONNECTIONSTRING"];
+                    options.InstanceName = "SampleInstance";
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
